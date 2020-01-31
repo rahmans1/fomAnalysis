@@ -7,6 +7,8 @@ rm command300
 rm command400
 rm command500
 rm command600
+rm command700
+rm command800
 rm command900
 rm command1000
 

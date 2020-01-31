@@ -1,9 +1,9 @@
-int plotFOM(TString source, TString out){
+int plotFOM(TString source, TString out, TString suffix){
 
 std::map<TString, TFile*> gen;
 
-gen["moller"]=new TFile(Form("%s/moller/moller_5_Quartz.root", source.Data()));
-gen["elastic"]=new TFile(Form("%s/elastic/elastic_5_Quartz.root", source.Data()));
+gen["moller"]=new TFile(Form("%s/moller/moller_5_Quartz%s.root", source.Data(), suffix.Data()));
+gen["elastic"]=new TFile(Form("%s/elastic/elastic_5_Quartz%s.root", source.Data(),suffix.Data()));
 
 std::vector<TString> generator{"moller", "elastic"};
 
@@ -27,17 +27,17 @@ TLine l3;
 
 TCanvas *c=new TCanvas("c", "c", 800,600);
 
-
-l1.SetX1(800);
-l1.SetX2(1150);
+Double_t shift=20.0;
+l1.SetX1(855+shift);
+l1.SetX2(1070+shift);
 l1.SetY1(35);
 l1.SetY2(35);
-l2.SetX1(855);
-l2.SetX2(855);
+l2.SetX1(855+shift);
+l2.SetX2(855+shift);
 l2.SetY1(0);
 l2.SetY2(35);
-l3.SetX1(1070);
-l3.SetX2(1070);
+l3.SetX1(1070+shift);
+l3.SetX2(1070+shift);
 l3.SetY1(0);
 l3.SetY2(35);
 h_open["moller"]->Scale(65.0/1000);
@@ -48,16 +48,16 @@ l2.Draw();
 l3.Draw();
 c->Print(Form("%s/overlay_fom_open.png", out.Data()));
 
-l1.SetX1(900);
-l1.SetX2(1060);
+l1.SetX1(900+shift);
+l1.SetX2(1060+shift);
 l1.SetY1(35);
 l1.SetY2(35);
-l2.SetX1(900);
-l2.SetX2(900);
+l2.SetX1(900+shift);
+l2.SetX2(900+shift);
 l2.SetY1(0);
 l2.SetY2(35);
-l3.SetX1(1060);
-l3.SetX2(1060);
+l3.SetX1(1060+shift);
+l3.SetX2(1060+shift);
 l3.SetY1(0);
 l3.SetY2(35);
 h_trans["moller"]->Scale(65.0/1000);
@@ -68,16 +68,16 @@ l2.Draw();
 l3.Draw();
 c->Print(Form("%s/overlay_fom_trans.png", out.Data()));
 
-l1.SetX1(915);
-l1.SetX2(1055);
+l1.SetX1(915+shift);
+l1.SetX2(1055+shift);
 l1.SetY1(10);
 l1.SetY2(10);
-l2.SetX1(915);
-l2.SetX2(915);
+l2.SetX1(915+shift);
+l2.SetX2(915+shift);
 l2.SetY1(0);
 l2.SetY2(10);
-l3.SetX1(1055);
-l3.SetX2(1055);
+l3.SetX1(1055+shift);
+l3.SetX2(1055+shift);
 l3.SetY1(0);
 l3.SetY2(10);
 h_closed["moller"]->Scale(65.0/1000);

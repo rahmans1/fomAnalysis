@@ -30,7 +30,7 @@ TLine l3;
 TCanvas *c=new TCanvas("c", "c", 800,600);
 h_open["moller"]->Scale(1.0/1000);
 h_open["moller"]->Draw();
-h_open["elastic"]->Scale(1.0/2000);
+h_open["elastic"]->Scale(1.0/1000);
 h_open["elastic"]->Draw("same");
 c->Print(Form("%s/overlay_open.png", out.Data()));
 

@@ -16,7 +16,7 @@ if not sys.argv[3]:
 else:
         root = sys.argv[3]
 if not sys.argv[4]:
-	batch= "101"
+	batch= "101_segmented_kryp"
 else:
 	batch= sys.argv[4]
 if not sys.argv[5]:

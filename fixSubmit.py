@@ -8,11 +8,11 @@ if not sys.argv[1]:
 else:
 	home= sys.argv[1]
 if not sys.argv[2]:
-	macro= "/w/halla-scifs17exp/moller12gev/rahmans/jobSubmission/bkgStudy/macro"
+	macro= "/w/halla-scifs17exp/moller12gev/rahmans/analysis/fomStudy/jsub"
 else:
 	macro= sys.argv[2]
 if not sys.argv[3]:
-        jsub= "/w/halla-scifs17exp/moller12gev/rahmans/jobSubmission/bkgStudy/jsub"
+        jsub= "/w/halla-scifs17exp/moller12gev/rahmans/analysis/fomStudy/jsub"
 else:
         jsub = sys.argv[3]
 if not sys.argv[4]:
@@ -24,25 +24,33 @@ if not sys.argv[5]:
 else:
 	geometry= sys.argv[5]	
 if not sys.argv[6]:   
-	scratch= "/volatile/halla/moller12gev/rahmans/scratch/bkgStudy"
+	scratch= "/volatile/halla/moller12gev/rahmans/root/fomStudy"
 else:
 	scratch= sys.argv[6]
 if not sys.argv[7]:
-        tmp= "/volatile/halla/moller12gev/rahmans/tmp/bkgStudy"
+        tmp= "/volatile/halla/moller12gev/rahmans/tmp/fomStudy"
 else:
         tmp= sys.argv[7]
 if not sys.argv[8]:
-	batch= "batch1"
+	batch= "101_hybrid_kryp"
 else:
 	batch= sys.argv[8]
 if not sys.argv[9]:
-	generator="beam"
+	generator="inelastic"
 else:
 	generator=sys.argv[9]
 if not sys.argv[10]:
         aluminum="USAlTarg"
 else:
         aluminum=sys.argv[10]
+if not sys.argv[11]:
+        ring=5
+else:
+        ring=sys.argv[11]
+if not sys.argv[12]:
+        mod="Quartz"
+else:
+        mod=sys.argv[12]
 motherfile={}
 motherfile["USAlTarg"]="mollerMother_merged_usAl.gdml"
 motherfile["DSAlTarg"]="mollerMother_merged_dsAl.gdml"
@@ -69,17 +77,18 @@ jsub=jsub+"/"+batch
 macro=macro+"/"+batch 
 scratch=scratch+"/"+batch
 tmp=tmp+"/"+batch
-
+subprocess.call("source /apps/root/6.18.00/setroot_CUE",shell=True)
 count=0
 for i in runrange:
-  filename=scratch+"/"+generator+"_"+str(i)+".root"
+  filename=scratch+"/"+generator+"_"+str(ring)+"_"+mod+"_"+str(i)+".root"
   	        
   if os.path.exists(filename):
     c=subprocess.call("root -q -b -l fix.C'(\""+filename+"\")'",shell=True)
     if (c>0):     
-      subprocess.call("sbatch "+jsub+"/"+generator+"_"+ str(i)+ ".sh",shell=True
-)
+      subprocess.call("sbatch "+jsub+"/"+generator+"_"+str(ring)+"_"+mod+"_"+ str(i)+ ".sh",shell=True)
       count=count+1
+  else:
+    subprocess.call("sbatch "+jsub+"/"+generator+"_"+str(ring)+"_"+mod+"_"+ str(i)+ ".sh",shell=True)
 
 print("Total number of corrupt files is"+str(count)+".\n")
 		
