@@ -36,7 +36,7 @@ if not sys.argv[8]:
 else:
 	batch= sys.argv[8]
 if not sys.argv[9]:
-	generator="inelastic"
+	generator="beam"
 else:
 	generator=sys.argv[9]
 if not sys.argv[10]:

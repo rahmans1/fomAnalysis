@@ -12,7 +12,7 @@ if not sys.argv[2]:
 else:
 	scratch = sys.argv[2]
 if not sys.argv[3]:
-        root = "/volatile/halla/moller12gev/rahmans/root/fomStudy"
+        root = "/w/work/halla/moller12gev/rahmans/root/fomStudy"
 else:
         root = sys.argv[3]
 if not sys.argv[4]:
@@ -20,7 +20,7 @@ if not sys.argv[4]:
 else:
 	batch= sys.argv[4]
 if not sys.argv[5]:
-	generator="elastic"
+	generator="beam"
 else:
 	generator=sys.argv[5]
 if not sys.argv[6]:
@@ -70,7 +70,7 @@ for i in runrange:
        jsubf.write("#SBATCH --account=halla\n")
        jsubf.write("#SBATCH --partition=production\n")
        jsubf.write("#SBATCH --job-name=remollAna\n")
-       jsubf.write("#SBATCH --time=00:05:00\n")
+       jsubf.write("#SBATCH --time=00:15:00\n")
        jsubf.write("#SBATCH --nodes=1\n")
        jsubf.write("#SBATCH --ntasks=1\n")
        jsubf.write("#SBATCH --cpus-per-task=1\n")
@@ -79,7 +79,7 @@ for i in runrange:
        jsubf.write("#SBATCH --output=/volatile/halla/moller12gev/rahmans/tmp/tmp.out\n")
        jsubf.write("cd "+home+"\n")
        jsubf.write("echo \"Current working directory is `pwd`\"\n")	
-       jsubf.write("./reroot -q -b analyse.C'(\""+filename+"\", \""+outfile+"\", \""+generator+"\", "+str(j)+", \""+k+"\")'\n")
+       jsubf.write("./reroot -q -b analyse_beam_ring5.C'(\""+filename+"\", \""+outfile+"\", \""+generator+"\", "+str(j)+", \""+k+"\")'\n")
        print("sbatch "+jsub+"/"+generator+"_"+str(j)+"_"+k+"_"+str(i)+".sh") 
        		
     
