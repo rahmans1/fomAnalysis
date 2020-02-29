@@ -2,7 +2,7 @@ using namespace ROOT;
 
 /**Usage: source file, output file, generator, ring number(1-6) and module name (Quartz/LG)**/
 
-int analyse_beam_ring5(TString source, TString out, TString gen, Int_t ring, TString mod){
+int analyse_beam_ring5_vertex(TString source, TString out, TString gen, Int_t ring, TString mod){
 
 TChain T("T");
 T.Add(Form("%s", source.Data())); // Adding source file
@@ -16,10 +16,10 @@ if(gen=="beam"){
 
 TFile f(Form("%s", out.Data()), "RECREATE");
 
-std::map<TString, TH1D*> h;
-std::map<TString, TH1D*> h_low;
-std::map<TString, TH1D*> h_mid;
-std::map<TString, TH1D*> h_high;
+std::map<TString, TH2D*> h;
+std::map<TString, TH2D*> h_low;
+std::map<TString, TH2D*> h_mid;
+std::map<TString, TH2D*> h_high;
 
 
 std::vector<TString> particle{"all", "primary", "electron", "positron", "photon", "other"};
@@ -29,7 +29,7 @@ std::vector<TString> energy{"all", "low", "mid", "high"};
 
 for(Int_t i=0;i<6;i++){
   for(Int_t j=0;j<4;j++){
-h[particle[i]+energy[j]]=new TH1D(Form("pr_%s_%s", particle[i].Data(), energy[j].Data()), Form("%s, Ring = %d, Sector = all, Generator = %s, Part = %s",particle[i].Data(), ring, gen.Data(), mod.Data()), 400, 0, 2000);
+h[particle[i]+energy[j]]=new TH2D(Form("vrvz_%s_%s", particle[i].Data(), energy[j].Data()), Form("%s, Ring = %d, Sector = all, Generator = %s, Part = %s",particle[i].Data(), ring, gen.Data(), mod.Data()), 650, -5500, 27000, 120, 0, 1200 );
   }
 }
 
@@ -79,21 +79,21 @@ for (size_t j=0;j< nEvents;j++){
                   min_open[2]=680; max_open[2]=730;
                   min_open[3]=730; max_open[3]=805;
                   min_open[4]=805; max_open[4]=855;
-                  min_open[5]=875; max_open[5]=1090;
+                  min_open[5]=855; max_open[5]=1070;
                   min_open[6]=1070; max_open[6]=1170;
 
                   min_trans[1]=640; max_trans[1]=680;
                   min_trans[2]=680; max_trans[2]=730;
                   min_trans[3]=730; max_trans[3]=827.5;
                   min_trans[4]=827.5; max_trans[4]=900;
-                  min_trans[5]=920; max_trans[5]=1080;
+                  min_trans[5]=900; max_trans[5]=1060;
                   min_trans[6]=1060; max_trans[6]=1170;
 
                   min_closed[1]=640; max_closed[1]=680;
                   min_closed[2]=680; max_closed[2]=730;
                   min_closed[3]=730; max_closed[3]=835;
                   min_closed[4]=835; max_closed[4]=915;
-                  min_closed[5]=935; max_closed[5]=1075;
+                  min_closed[5]=915; max_closed[5]=1055;
                   min_closed[6]=1055; max_closed[6]=1170;
 
 		} else{
@@ -198,7 +198,7 @@ for (size_t j=0;j< nEvents;j++){
                                  h_asy_closed[particle[i]]->Fill(fEvent->A, fRate*weight);
                            }
 ****/
-                           h[particle[i]+energy[j]]->Fill(hit.r, (fRate)*weight);
+                           h[particle[i]+energy[j]]->Fill(hit.vz, sqrt(hit.vx*hit.vx+hit.vy*hit.vy), (fRate)*weight);
                         }
 		   }
 		} 
